@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "dianbot"
+version = "0.1.0"
+description = "dianbot"
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+nonebot2 = "^2.0.0-beta.1"
+nonebot-adapter-mirai2 = "^0.0.10"
+
+[tool.poetry.dev-dependencies]
+nb-cli = "^0.6.0"
+
+[tool.nonebot]
+plugins = []
+plugin_dirs = ["src/plugins"]
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
