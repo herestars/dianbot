@@ -1,26 +1,18 @@
 [tool.poetry]
 name = "dianbot"
 version = "0.1.0"
-description = "dianbot"
-authors = []
+description = ""
+authors = ["dianhsu <xudian.cn@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-nonebot2 = "^2.0.0-beta.1"
-nonebot-adapter-mirai2 = "^0.0.10"
+python = "^3.11"
+nonebot2 = {extras = ["fastapi", "httpx"], version = "^2.0.1"}
+nonebot-adapter-console = "^0.4.0"
+nonebot-adapter-kaiheila = "^0.2.8"
+nonebot-plugin-apscheduler = "^0.3.0"
 
-[tool.poetry.dev-dependencies]
-nb-cli = "^0.6.0"
-
-[tool.nonebot]
-plugins = []
-plugin_dirs = ["src/plugins"]
 
 [build-system]
-requires = ["poetry_core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[[tool.poetry.source]]
-name = "aliyun"
-url = "https://mirrors.aliyun.com/pypi/simple/"
