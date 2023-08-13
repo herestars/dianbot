@@ -1,0 +1,11 @@
+version: '3'
+services:
+  bot:
+    image: dianbot
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    environment:
+      ENVIRONMENT: prod
+      kaiheila_bots: 
+    
