@@ -1,27 +1,21 @@
 import requests
 import json
 import dotenv
+import os
 
-
-
-config = {
-    **dotenv.dotenv_values(".env"),
-    **dotenv.dotenv_values(".env.dev"),
-}
-
+dotenv.load_dotenv()
 
 base_url = "https://www.kookapp.cn/api"
 
 headers = {
     "Content-Type": "application/json;charset=UTF-8",
-    "Authorization": "Bot " + config["token"],
+    "Authorization": "Bot " + os.getenv("token"),
 }
 
 data = {
-    "id": 453027,
-    "icon": "https://img.kookapp.cn/assets/2022-07/zW0oz6ZUma0a00a0.png/icon"
+    "id": 453027
 }
 res = requests.post(
-    base_url + "/v3/game/update", headers=headers, data=json.dumps(data)
+    base_url + "/v3/game/activity", headers=headers, data=json.dumps(data)
 )
 print(res.text)
