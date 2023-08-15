@@ -52,12 +52,13 @@ async def game_search_cmd(msg: Message, game_name: str):
             # 使用模糊匹配，只要用户需要查找的游戏名字包含在其中，就添加到结果列表中
             if game_name.lower() in g.name.lower():
                 target_games.append(g)  # 插入 Game 对象
+        
         # list 为空代表没有找到
         if target_games == []:
             await msg.reply(f"没有找到「{game_name}」游戏")
         else:
             text = f"找到了「{game_name}」游戏\n"
-            for game in target_games:
+            for game in target_games[:10]:
                 text += "```\n"
                 text += f"ID：{game.id}\n"
                 text += f"名字：{game.name}\n"

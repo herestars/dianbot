@@ -14,4 +14,4 @@ RUN curl -sSL https://install.python-poetry.org | python - && \
 COPY . /bot/
 RUN poetry install 
 
-ENTRYPOINT ["sh", "-c", "python3 ./src/bot.py"]
+ENTRYPOINT ["sh", "-c", "python3 ./bot.py"]
