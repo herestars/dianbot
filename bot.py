@@ -4,7 +4,7 @@ from khl import Bot, Message
 from dotenv import load_dotenv
 import os
 
-load_dotenv(override=False)
+load_dotenv()
 
 token = os.getenv("token")
 port = os.getenv("port", 4396)
