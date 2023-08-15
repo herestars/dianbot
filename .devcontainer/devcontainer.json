@@ -12,7 +12,9 @@
 				"ms-python.python",
 				"njpwerner.autodocstring",
 				"GitHub.copilot",
-				"EditorConfig.EditorConfig"
+				"EditorConfig.EditorConfig",
+				"MS-CEINTL.vscode-language-pack-zh-hans",
+				"ms-python.vscode-pylance"
 			]
 		}
 	},

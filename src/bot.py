@@ -1,5 +1,5 @@
+#!/usr/bin/env python
 import nonebot
-#from nonebot.adapters.console import Adapter as ConsoleAdapter  # 避免重复命名
 from nonebot.adapters.kaiheila import Adapter as KaiheilaAdapter
 from nonebot import require
 
