@@ -1,19 +1,15 @@
 #!/usr/bin/env python
 import traceback
 from khl import Bot, Message
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 import os
 
-config = {
-    **dotenv_values(".env"),  # load shared development variables
-    **dotenv_values(".env.dev"),  # load sensitive variables
-    #**os.environ,  # override loaded values with environment variables
-}
+load_dotenv(override=False)
 
-if os.environ.get("env") == 'enable':
-    config = {**config, **os.environ}
+token = os.getenv("token")
+port = os.getenv("port", 4396)
 
-bot = Bot(token=config["token"], port=config["port"])
+bot = Bot(token=token, port=port)
 
 
 def is_admin(msg: Message):
@@ -52,7 +48,7 @@ async def game_search_cmd(msg: Message, game_name: str):
             # 使用模糊匹配，只要用户需要查找的游戏名字包含在其中，就添加到结果列表中
             if game_name.lower() in g.name.lower():
                 target_games.append(g)  # 插入 Game 对象
-        
+
         # list 为空代表没有找到
         if target_games == []:
             await msg.reply(f"没有找到「{game_name}」游戏")
@@ -81,6 +77,7 @@ int main(){
             await msg.reply(text)
     except:
         print(traceback.format_exc())  # 如果出现异常，打印错误
+
 
 if __name__ == "__main__":
     bot.run()
