@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 import traceback
 from khl import Bot, Message
-from khl.command import Rule
 from dotenv import dotenv_values
 import os
-import logging
 
 config = {
     **dotenv_values(".env"),  # load shared development variables
     **dotenv_values(".env.dev"),  # load sensitive variables
     #**os.environ,  # override loaded values with environment variables
 }
+
+if os.environ.get("env") == 'enable':
+    config = {**config, **os.environ}
 
 bot = Bot(token=config["token"], port=config["port"])
 
