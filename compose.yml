@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile 
     restart: always
     environment:
-      ENVIRONMENT: prod
+      ENV: enable
       DATABASE_URL: postgresql://dianhsu:dianbot@postgres:5432/bot
       REDIS_URL: redis://redis:6379
       RABBITMQ_URL: amqp://dianhsu:dianbot@rabbitmq:5672
