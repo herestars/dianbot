@@ -15,6 +15,8 @@ if __name__ == "__main__":
 
     bot = get_bot()
     app = get_app()
+    app['bot'] = bot
+
     asyncio.get_event_loop().run_until_complete(
         asyncio.gather(web._run_app(app, host=HOST, port=PORT), bot.start())
     )
