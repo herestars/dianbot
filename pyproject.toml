@@ -10,7 +10,6 @@ python = "^3.11"
 python-dotenv = "^1.0.0"
 khl-py = "^0.3.16"
 loguru = "^0.7.0"
-requests = "^2.31.0"
 
 
 [build-system]
