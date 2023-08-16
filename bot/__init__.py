@@ -23,7 +23,7 @@ def get_bot():
     token = os.getenv("token")
     bot = Bot(token=token)
 
-    @bot.task.add_interval(seconds=config.STATE_CHECK_INTERVAL_MINUTES)
+    @bot.task.add_interval(minutes=config.STATE_CHECK_INTERVAL_MINUTES)
     async def update_status():
         state = random.choices(
             [
