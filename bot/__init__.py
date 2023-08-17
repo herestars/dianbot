@@ -30,15 +30,16 @@ def get_bot():
                 UpdateState.PLAY_GAME,
                 UpdateState.SLEEP,
             ],
-            weights=[0.2, 0.5, 0.2],
+            weights=[3, 5, 2],
         )
-        logger.info(f"update bot status: {state[0].value}")
+        log_channel = await bot.client.fetch_public_channel(config.LOG_CHANNEL_ID)
         match state[0]:
             case UpdateState.NO_UPDATE:
                 return
             case UpdateState.PLAY_GAME:
+
                 game = random.choice(config.PLAYING_GAMES)
-                logger.info(f"update bot playing game: {game[1]}")
+                await bot.client.send(log_channel, f"开始玩游戏: {game[1]}")
                 await bot.client.update_playing_game(game[0])
                 return
             case UpdateState.SLEEP:
@@ -50,6 +51,7 @@ def get_bot():
                     await bot.client.stop_playing_game()
                 except:
                     pass
+                await bot.client.send(log_channel, "开始休息一下")
                 return
 
     def is_admin(msg: Message):

@@ -25,6 +25,7 @@ KOOK_TOKEN: str
 STATE_CHECK_INTERVAL_MINUTES: int
 WEB_HOST: str
 WEB_PORT: int
+LOG_CHANNEL_ID: str
 
 def load_config():
     dotenv.load_dotenv()
@@ -32,8 +33,9 @@ def load_config():
     global STATE_CHECK_INTERVAL_MINUTES
     global WEB_HOST
     global WEB_PORT
-
+    global LOG_CHANNEL_ID
     KOOK_TOKEN = os.environ.get('KOOK_TOKEN')
-    STATE_CHECK_INTERVAL_MINUTES = os.environ.get('STATE_CHECK_INTERVAL_MINUTES', 30)
+    STATE_CHECK_INTERVAL_MINUTES = int(os.environ.get('STATE_CHECK_INTERVAL_MINUTES', 30))
     WEB_HOST = os.environ.get('WEB_HOST', '0.0.0.0')
-    WEB_PORT = os.environ.get('WEB_PORT', 4396)
+    WEB_PORT = int(os.environ.get('WEB_PORT', 4396))
+    LOG_CHANNEL_ID = os.environ.get('LOG_CHANNEL_ID', '5906997479983282')
