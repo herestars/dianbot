@@ -4,16 +4,14 @@ import asyncio
 from aiohttp import web
 from bot import get_bot
 from web import get_app
-
-load_dotenv()
-
-HOST, PORT = "0.0.0.0", 4396
+import config
 
 if __name__ == "__main__":
+    config.load_config()
     bot = get_bot()
     app = get_app()
     app["bot"] = bot
 
     asyncio.get_event_loop().run_until_complete(
-        asyncio.gather(web._run_app(app, host=HOST, port=PORT), bot.start())
+        asyncio.gather(web._run_app(app, host=config.WEB_HOST, port=config.WEB_PORT), bot.start())
     )

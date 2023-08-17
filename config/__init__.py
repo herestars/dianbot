@@ -1,5 +1,5 @@
-
-STATE_CHECK_INTERVAL_MINUTES = 10
+import os
+import dotenv
 PLAYING_GAMES = [
     (3,  "英雄联盟"),
     (9624,  "泰拉瑞亚"),
@@ -20,3 +20,20 @@ PLAYING_GAMES = [
     (139331,  "极限国度"),
     (21, "地下城与勇士"),
 ]
+
+KOOK_TOKEN: str
+STATE_CHECK_INTERVAL_MINUTES: int
+WEB_HOST: str
+WEB_PORT: int
+
+def load_config():
+    dotenv.load_dotenv()
+    global KOOK_TOKEN 
+    global STATE_CHECK_INTERVAL_MINUTES
+    global WEB_HOST
+    global WEB_PORT
+
+    KOOK_TOKEN = os.environ.get('KOOK_TOKEN')
+    STATE_CHECK_INTERVAL_MINUTES = os.environ.get('STATE_CHECK_INTERVAL_MINUTES', 30)
+    WEB_HOST = os.environ.get('WEB_HOST', '0.0.0.0')
+    WEB_PORT = os.environ.get('WEB_PORT', 4396)

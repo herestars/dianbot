@@ -20,8 +20,7 @@ class UpdateState(Enum):
 
 
 def get_bot():
-    token = os.getenv("token")
-    bot = Bot(token=token)
+    bot = Bot(token=config.KOOK_TOKEN)
 
     @bot.task.add_interval(minutes=config.STATE_CHECK_INTERVAL_MINUTES)
     async def update_status():
