@@ -1,15 +1,23 @@
 from khl import Message
 import traceback
 from robot.loader import bot
+from loguru import logger
+from lib import send_to_openai_async
+from khl import ChannelPrivacyTypes
+
+logger.info("Loading commands...")
+
 
 def is_admin(msg: Message):
     return msg.author.id == "3335682013"
+
 
 @bot.command(rules=[is_admin])
 async def gaming(msg: Message, game_id: int):
     # game_id : int
     await bot.client.update_playing_game(game_id)
     await msg.reply("gaming!")
+
 
 @bot.command(rules=[is_admin])
 async def music(msg: Message, music: str, singer: str):
@@ -19,9 +27,11 @@ async def music(msg: Message, music: str, singer: str):
     await bot.client.update_listening_music(music, singer, "qqmusic")
     await msg.reply("listening to music!")
 
+
 @bot.command(name="hello", prefixes=("/", "#"), rules=[is_admin])
 async def world(msg: Message):
     await msg.reply("world!")
+
 
 @bot.command(name="game-s")
 async def game_search_cmd(msg: Message, game_name: str):
@@ -50,3 +60,20 @@ async def game_search_cmd(msg: Message, game_name: str):
             await msg.reply(text)
     except:
         print(traceback.format_exc())  # 如果出现异常，打印错误
+
+
+chat_msg = []
+chat_channel_id = ['3980462878546253', '1472424805587532']
+
+@bot.on_message()
+async def on_message(msg: Message):
+    if (
+        msg.channel_type == ChannelPrivacyTypes.GROUP and msg.target_id in chat_channel_id
+        and (await bot.fetch_me()).id in msg.extra.get("mention")
+    ) or (msg.channel_type == ChannelPrivacyTypes.PERSON and is_admin(msg)):
+        chat_msg.append({"role": "user", "content": msg.content})
+        reply_text = await send_to_openai_async(chat_msg)
+        chat_msg.append({"role": "assistant", "content": reply_text})
+        while len(chat_msg) > 10:
+            chat_msg.pop(0)
+        await msg.reply(reply_text)

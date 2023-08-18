@@ -2,8 +2,9 @@ import random
 import config
 from robot.loader import bot
 from enum import Enum
+from loguru import logger
 
-
+logger.info("Loading tasks...")
 class UpdateState(Enum):
     NO_UPDATE = "no update"
     PLAY_GAME = "play game"
@@ -30,6 +31,7 @@ async def update_status():
             game = random.choice(config.PLAYING_GAMES)
             if CUR_STATE != game[0]:
                 await bot.client.send(log_channel, f"开始玩: {game[1]}")
+                logger.info(f"开始玩: {game[1]}")
                 await bot.client.update_playing_game(game[0])
                 CUR_STATE = game[0]
             return
@@ -43,6 +45,7 @@ async def update_status():
                     await bot.client.stop_playing_game()
                 except:
                     pass
+                logger.info("休息一下")
                 await bot.client.send(log_channel, "休息一下")
                 CUR_STATE = None
             return
