@@ -30,12 +30,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile 
-    restart: always
-    environment:
-      KOOK_TOKEN:
-      DATABASE_URL: postgresql://dianhsu:dianbot@postgres:5432/bot
-      REDIS_URL: redis://redis:6379
-      RABBITMQ_URL: amqp://dianhsu:dianbot@rabbitmq:5672
+    volumes:
+      - ./:/bot
+    command: python3 main.py
     # depends_on:
     #   - postgres
     #   - redis 

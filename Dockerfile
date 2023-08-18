@@ -8,10 +8,8 @@ RUN curl -sSL https://install.python-poetry.org | python - && \
     cd /usr/local/bin && \
     ln -s /opt/poetry/bin/poetry && \
     poetry config virtualenvs.create false
-
 WORKDIR /bot
 RUN cd /bot
-COPY . /bot/
+COPY pyproject.toml /bot/
+COPY poetry.lock /bot/
 RUN poetry install 
-
-ENTRYPOINT ["sh", "-c", "python3 ./main.py"]

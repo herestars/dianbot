@@ -1,13 +1,15 @@
 #!/usr/bin/env python
-from dotenv import load_dotenv
 import asyncio
 from aiohttp import web
-from bot import get_bot
+from robot import bot
 from web import get_app
 import config
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
-    bot = get_bot()
     app = get_app()
     app["bot"] = bot
 
