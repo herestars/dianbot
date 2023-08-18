@@ -21,21 +21,14 @@ PLAYING_GAMES = [
     (21, "地下城与勇士"),
 ]
 
-KOOK_TOKEN: str
-STATE_CHECK_INTERVAL_MINUTES: int
-WEB_HOST: str
-WEB_PORT: int
-LOG_CHANNEL_ID: str
+dotenv.load_dotenv()
+KOOK_TOKEN = os.getenv('KOOK_TOKEN')
+STATE_CHECK_INTERVAL_MINUTES = int(os.getenv('STATE_CHECK_INTERVAL_MINUTES', 30))
+WEB_HOST = os.getenv('WEB_HOST', '0.0.0.0')
+WEB_PORT = int(os.getenv('WEB_PORT', 4396))
+LOG_CHANNEL_ID = os.getenv('LOG_CHANNEL_ID', '5906997479983282')
 
-def load_config():
-    dotenv.load_dotenv()
-    global KOOK_TOKEN 
-    global STATE_CHECK_INTERVAL_MINUTES
-    global WEB_HOST
-    global WEB_PORT
-    global LOG_CHANNEL_ID
-    KOOK_TOKEN = os.environ.get('KOOK_TOKEN')
-    STATE_CHECK_INTERVAL_MINUTES = int(os.environ.get('STATE_CHECK_INTERVAL_MINUTES', 30))
-    WEB_HOST = os.environ.get('WEB_HOST', '0.0.0.0')
-    WEB_PORT = int(os.environ.get('WEB_PORT', 4396))
-    LOG_CHANNEL_ID = os.environ.get('LOG_CHANNEL_ID', '5906997479983282')
+# OpenAI API Config
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_ENDPOINT = os.getenv('OPENAI_ENDPOINT')
+OPENAI_DEPLOYMENT_NAME = os.getenv('OPENAI_DEPLOYMENT_NAME')

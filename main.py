@@ -7,7 +7,6 @@ from web import get_app
 import config
 
 if __name__ == "__main__":
-    config.load_config()
     bot = get_bot()
     app = get_app()
     app["bot"] = bot
