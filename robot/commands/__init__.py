@@ -1,10 +1,10 @@
-from khl import Message
+from khl import Message, Bot
 import traceback
 from robot.loader import bot
 from loguru import logger
 from lib import send_to_openai_async
 from khl import ChannelPrivacyTypes
-
+import config
 logger.info("Loading commands...")
 
 
@@ -77,3 +77,10 @@ async def on_message(msg: Message):
         while len(chat_msg) > 10:
             chat_msg.pop(0)
         await msg.reply(reply_text)
+
+async def handle_startup(bot: Bot):
+    logger.info("Bot started!")
+    log_channel = await bot.client.fetch_public_channel(config.LOG_CHANNEL_ID)
+    await log_channel.send(f"Bot started!")
+
+bot.on_startup(handle_startup)
