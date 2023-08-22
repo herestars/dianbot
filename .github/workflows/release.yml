@@ -22,7 +22,7 @@ jobs:
       - name: Send update information
         run: |
           VERSION=${{ github.ref }}
-          content="version: **$VERSION**\n\ncommit information:\n`git log -1 --format=%s`"
+          content="version: **$VERSION**\n\ncommit information:\n`git log -1 --format=%B`"
           content=$(echo "${content//$'\n'/'\n'}" | sed 's/"/\\"/g')
           msg="{\"type\": 9, \"content\":\"$content\", \"target_id\": \"${{ secrets.CHANNEL_ID }}\"}"
           header="Authorization: Bot ${{ secrets.BOT_TOKEN }}"
