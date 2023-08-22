@@ -34,8 +34,6 @@ services:
     volumes:
       - ./:/bot
     command: python3 main.py
-    environment:
-      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - redis 
     #   - postgres

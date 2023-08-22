@@ -1,10 +1,11 @@
 from khl import Message, Bot
 import traceback
-from robot.loader import bot
+from robot.loader import bot, redis
 from loguru import logger
 from lib import send_to_openai_async
 from khl import ChannelPrivacyTypes
 import config
+import json
 
 logger.info("Loading commands...")
 
@@ -63,9 +64,7 @@ async def game_search_cmd(msg: Message, game_name: str):
         print(traceback.format_exc())  # 如果出现异常，打印错误
 
 
-chat_msg = []
 chat_channel_id = ["3980462878546253", "1472424805587532"]
-
 
 @bot.on_message()
 async def on_message(msg: Message):
@@ -75,12 +74,28 @@ async def on_message(msg: Message):
         and msg.target_id in chat_channel_id
         and my_id in msg.extra.get("mention")
     ) or (msg.channel_type == ChannelPrivacyTypes.PERSON and is_admin(msg)):
+        # get chat msg from redis
+        chat_msg = []
+        author_msgs = redis.get(msg.author.id)
+        if author_msgs:
+            chat_msg = json.loads(str(author_msgs, encoding="utf-8"))
+
+        # remove mention
         content = msg.content.replace(f"(met){my_id}(met)", "")
+
+        # add to chat msg and remove old msg
         chat_msg.append({"role": "user", "content": content})
+        while len(chat_msg) > 30:
+            chat_msg.pop(0)
+
+        # send to openai and get reply
         reply_text = await send_to_openai_async(chat_msg)
         chat_msg.append({"role": "assistant", "content": reply_text})
-        while len(chat_msg) > 10:
-            chat_msg.pop(0)
+
+        # save chat msg to redis
+        redis.setex(msg.author.id, 60 * 60, json.dumps(chat_msg))
+
+        # send reply
         await msg.reply(reply_text)
 
 
