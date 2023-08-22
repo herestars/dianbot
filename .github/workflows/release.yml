@@ -25,6 +25,6 @@ jobs:
           content="$VERSION\n`git log -1 --format=%s`"
           content=$(echo "${content//$'\n'/'\n'}" | sed 's/"/\\"/g')
           msg="{\"type\": 9, \"content\":\"$content\", \"target_id\": \"{{ secrets.CHANNEL_ID }}\"}"
-          header="Authorization: Bot {{ secret.BOT_TOKEN }}"
+          header="Authorization: Bot {{ secrets.BOT_TOKEN }}"
           curl -H "Content-Type: application/json" -X POST -d "$msg" --header "$header" https://www.kookapp.cn/api/v3/message/create
 
