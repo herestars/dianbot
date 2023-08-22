@@ -1,0 +1,30 @@
+
+name: Release - dianbot
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python version
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.11'
+
+
+      - name: Send update information
+        run: |
+          VERSION=${{ github.ref }}
+          content="$VERSION\n`git log -1 --format=%s`"
+          content=$(echo "${content//$'\n'/'\n'}" | sed 's/"/\\"/g')
+          msg="{\"type\": 9, \"content\":\"$content\", \"target_id\": \"{{ secrets.CHANNEL_ID }}\"}"
+          header="Authorization: Bot {{ secret.BOT_TOKEN }}"
+          curl -H "Content-Type: application/json" -X POST -d "$msg" --header "$header" https://www.kookapp.cn/api/v3/message/create
+
