@@ -46,3 +46,9 @@ LOG_CHANNEL_ID = os.getenv('LOG_CHANNEL_ID', '5906997479983282')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 OPENAI_ENDPOINT = os.getenv('OPENAI_ENDPOINT')
 OPENAI_DEPLOYMENT_NAME = os.getenv('OPENAI_DEPLOYMENT_NAME')
+
+
+# Redis Config
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))
+REDIS_DB = int(os.getenv('REDIS_DB', 0))
