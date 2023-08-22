@@ -34,6 +34,8 @@ services:
     volumes:
       - ./:/bot
     command: python3 main.py
+    environment:
+      - REDIS_HOST=redis
     depends_on:
       - redis 
     #   - postgres
