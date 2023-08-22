@@ -5,6 +5,7 @@ from loguru import logger
 from lib import send_to_openai_async
 from khl import ChannelPrivacyTypes
 import config
+
 logger.info("Loading commands...")
 
 
@@ -63,24 +64,30 @@ async def game_search_cmd(msg: Message, game_name: str):
 
 
 chat_msg = []
-chat_channel_id = ['3980462878546253', '1472424805587532']
+chat_channel_id = ["3980462878546253", "1472424805587532"]
+
 
 @bot.on_message()
 async def on_message(msg: Message):
+    my_id = (await bot.fetch_me()).id
     if (
-        msg.channel_type == ChannelPrivacyTypes.GROUP and msg.target_id in chat_channel_id
-        and (await bot.fetch_me()).id in msg.extra.get("mention")
+        msg.channel_type == ChannelPrivacyTypes.GROUP
+        and msg.target_id in chat_channel_id
+        and my_id in msg.extra.get("mention")
     ) or (msg.channel_type == ChannelPrivacyTypes.PERSON and is_admin(msg)):
-        chat_msg.append({"role": "user", "content": msg.content})
+        content = msg.content.replace(f"(met){my_id}(met)", "")
+        chat_msg.append({"role": "user", "content": content})
         reply_text = await send_to_openai_async(chat_msg)
         chat_msg.append({"role": "assistant", "content": reply_text})
         while len(chat_msg) > 10:
             chat_msg.pop(0)
         await msg.reply(reply_text)
 
+
 async def handle_startup(bot: Bot):
     logger.info("Bot started!")
     log_channel = await bot.client.fetch_public_channel(config.LOG_CHANNEL_ID)
     await log_channel.send(f"Bot started!")
+
 
 bot.on_startup(handle_startup)
