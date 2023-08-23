@@ -23,8 +23,6 @@ def main():
     token = args.token
     target_id = args.target_id
     headers = {"Content-Type": "application/json", "Authorization": f"Bot {token}"}
-    print(headers)
-    print(content)
     card_msg = [
         {
             "type": "card",
@@ -73,7 +71,7 @@ def main():
         data=json.dumps(msg),
         headers=headers,
     )
-    print(res.status_code, res.text, sep="\n")
+    print(res.status_code, sep="\n")
 
 
 if __name__ == "__main__":
