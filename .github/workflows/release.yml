@@ -28,4 +28,4 @@ jobs:
           version="${{ github.ref }}"
           content="`git log -1 --format=%B`"
           commit_hash="`git log -1 --format=%H`"
-          python ./tool/announcement.py "${{ github.ref }}" "$content" "$commit_hash" "${{ secrets.BOT_TOKEN }}" "${{ secrets.CHANNEL_ID }}"
+          python ./tool/announcement.py "${{ github.ref_name }}" "$content" "$commit_hash" "${{ secrets.BOT_TOKEN }}" "${{ secrets.CHANNEL_ID }}"
