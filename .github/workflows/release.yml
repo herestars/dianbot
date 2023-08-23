@@ -3,8 +3,9 @@ name: Release - dianbot
 
 on:
   push:
-    branches:
-      - "main"
+    tags:
+      - "v*"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,13 +19,13 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install require python modules
+        run: |
+          pip install requests
 
       - name: Send update information
         run: |
-          VERSION=${{ github.ref }}
-          content="version: **$VERSION**\n\ncommit information:\n`git log -1 --format=%B`"
-          content=$(echo "${content//$'\n'/'\n'}" | sed 's/"/\\"/g')
-          msg="{\"type\": 9, \"content\":\"$content\", \"target_id\": \"${{ secrets.CHANNEL_ID }}\"}"
-          header="Authorization: Bot ${{ secrets.BOT_TOKEN }}"
-          curl -H "Content-Type: application/json" -X POST -d "$msg" --header "$header" https://www.kookapp.cn/api/v3/message/create
-
+          version="${{ github.ref }}"
+          content="`git log -1 --format=%B`"
+          commit_hash="`git log -1 --format=%H`"
+          python ./tool/announcement.py "${{ github.ref }}" "$content" "$commit_hash" "${{ secrets.BOT_TOKEN }}" "${{ secrets.CHANNEL_ID }}"
